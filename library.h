@@ -1,0 +1,6 @@
+#ifndef CMAKE_TEMPLATE_LIBRARY_H
+#define CMAKE_TEMPLATE_LIBRARY_H
+
+void hello();
+
+#endif //CMAKE_TEMPLATE_LIBRARY_H
