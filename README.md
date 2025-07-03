@@ -11,7 +11,6 @@ A template structure for a modern CMake project, offering a robust starting poin
 - Out-of-the-box **library target** with namespaced alias
 - **Header and source separation**: designed for libraries
 - **Exported CMake config** for easy consumption via `find_package`
-- **Installation rules** for headers, libraries, and CMake config files
 - **Testing setup** using GoogleTest (via FetchContent)
 - Clean, minimal, and ready to extend for your project
 
@@ -27,6 +26,7 @@ cd cmake-template
 ````
 
 ### 2. Configure the Project
+If you only want to install the project use ``-DBUILD_TESTING=OFF``, as this option will make the build process way faster.
 
 ```sh
 cmake -S . -B build
@@ -45,6 +45,30 @@ cd build
 ctest
 ````
 
+### 5. Install the library
+
+```sh
+cd build
+sudo make install
+````
+
+### 6. Uninstall the library
+
+```sh
+cd build
+cat install_manifest.txt | sudo xargs rm
+```
+
+---
+
+## Usage
+After building and installing, you can use this library in another CMake project via:
+
+```cmake
+find_package(your_project REQUIRED)
+target_link_libraries(your_target PRIVATE your_project::your_project)
+```
+
 ---
 
 ## Project Structure
@@ -59,16 +83,6 @@ cmake-template/
 │   └── library.cpp      # (sample implementation)
 ├── tests/
 │   └── CMakeLists.txt   # (GoogleTest auto-download and test integration)
-```
-
----
-
-## Usage
-After building and installing, you can use this library in another CMake project via:
-
-```cmake
-find_package(your_project REQUIRED)
-target_link_libraries(your_target PRIVATE your_project::your_project)
 ```
 
 ---
