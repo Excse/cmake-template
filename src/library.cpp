@@ -2,6 +2,6 @@
 
 #include <iostream>
 
-void hello() {
-    std::cout << "Hello, World!" << std::endl;
+std::string hello() {
+    return "Hello, World!\n";
 }
