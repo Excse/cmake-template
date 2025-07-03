@@ -15,7 +15,6 @@ include(CMakePackageConfigHelpers) # Helper for creating config files for packag
 include(GNUInstallDirs)            # Define standard install directories (lib, include, etc.)
 include(FetchContent)              # For downloading and using external dependencies
 
-
 ### --- Define Library Target --- ##
 
 # Create the main library from source file
@@ -63,8 +62,15 @@ write_basic_package_version_file(
         VERSION ${PROJECT_VERSION}
         COMPATIBILITY AnyNewerVersion)
 
-# Install the generated config version file
+# Creates a config file for package configuration
+configure_package_config_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+
+# Install the generated config and config version file
 install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
