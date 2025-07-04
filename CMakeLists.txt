@@ -7,13 +7,13 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Option to enable/disable testing:
-option(BUILD_TESTING ON "Enable testing")
+option(BUILD_TESTING "Enable testing" ON)
 # Option to enable/disable executable:
-option(BUILD_EXECUTABLE ON "Create executable")
+option(BUILD_EXECUTABLE "Create executable" ON)
 # Option to enable/disable installation:
-option(MAKE_INSTALLABLE ON "Make the library installable")
+option(MAKE_INSTALLABLE "Make the library installable" ON)
 # Option to control static vs shared library
-option(BUILD_SHARED_LIBS ON "Build shared libraries")
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 ### --- CMake Modules for Installation and Fetching --- ###
 include(CMakePackageConfigHelpers) # Helper for creating config files for package managers
@@ -49,7 +49,7 @@ set_target_properties(${PROJECT_NAME}
 
 ### --- Define Executable Target --- ###
 
-if(BUILD_TESTING)
+if(BUILD_EXECUTABLE)
     # Create the main executable from the main source file
     add_executable(${PROJECT_NAME}_app src/main.cpp)
     # Link the library with the application
