@@ -44,7 +44,7 @@ set_target_properties(${PROJECT_NAME}
         PROPERTIES
         VERSION ${PROJECT_VERSION}
         SOVERSION ${PROJECT_VERSION_MAJOR}
-        PUBLIC_HEADER ${PUBLIC_HEADERS})
+        PUBLIC_HEADER "${PUBLIC_HEADERS}")
 
 
 ### --- Define Executable Target --- ###
