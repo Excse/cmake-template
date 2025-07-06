@@ -1,13 +1,13 @@
 # cmake-template
 
-A template structure for a modern CMake project, offering a robust starting point for C++ library development with CMake 3.20+.
-
 ![State](https://img.shields.io/github/actions/workflow/status/Excse/cmake-template/cmake-single-platform.yml?style=flat&label=Build%2FTest)
 ![Last Commit](https://img.shields.io/github/last-commit/Excse/cmake-template?style=flat&label=Last%20Commit)
 ![Contributors](https://img.shields.io/github/contributors/Excse/cmake-template?style=flat&label=Contributors)
 ![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FExcse%2Fcmake-template&label=Repository%20Visits&countColor=%232ccce4&style=flat&labelStyle=none)
 ![License](https://img.shields.io/github/license/Excse/cmake-template?style=flat&label=License)
 ![Stars](https://img.shields.io/github/stars/Excse/cmake-template)
+
+A template structure for a modern CMake project, offering a robust starting point for C++ library development with CMake 3.20+.
 
 ---
 
