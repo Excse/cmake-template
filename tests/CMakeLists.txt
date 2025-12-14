@@ -1,8 +1,7 @@
 ### --- Fetch and Setup GoogleTest --- ###
 FetchContent_Declare(
         googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG main
+        URL https://github.com/google/googletest/releases/download/v1.17.0/googletest-1.17.0.tar.gz
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
 
 # Disable GoogleTest installation
@@ -19,7 +18,7 @@ include(GoogleTest)
 ### --- Unit Testing Setup --- ###
 
 # Collect all test source files
-file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS ./*.cpp)
+file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS ./${PROJECT_NAME}/*.cpp)
 # or use this for only specific sources:
 # set(TEST_SOURCES ...)
 

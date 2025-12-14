@@ -13,7 +13,7 @@ A template structure for a modern CMake project, offering a robust starting poin
 
 ## Features
 
-- **Modern CMake** (3.20+)
+- **Modern CMake** (4.2+)
 - **C++20** enabled by default
 - Out-of-the-box **library target** with namespaced alias
 - **Header and source separation**: designed for libraries

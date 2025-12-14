@@ -1,5 +1,5 @@
 ### --- Project Initialization and Configuration --- ###
-cmake_minimum_required(VERSION 3.20)              # Require CMake 3.20 or later
+cmake_minimum_required(VERSION 4.2)               # Require CMake 4.2 or later
 project(your_project VERSION 1.0.0 LANGUAGES CXX) # Define project name, version, and language
 
 # Use C++20 and enforce it
@@ -24,7 +24,7 @@ include(FetchContent)              # For downloading and using external dependen
 ### --- Define Library Target --- ##
 
 # Create the main library from source file
-add_library(${PROJECT_NAME} src/library.cpp)
+add_library(${PROJECT_NAME} src/your_project/library.cpp)
 # Create an alias for the library: your_project::your_project
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
@@ -51,7 +51,7 @@ set_target_properties(${PROJECT_NAME}
 
 if(BUILD_EXECUTABLE)
     # Create the main executable from the main source file
-    add_executable(${PROJECT_NAME}_app src/main.cpp)
+    add_executable(${PROJECT_NAME}_app src/your_project/main.cpp)
     # Link the library with the application
     target_link_libraries(${PROJECT_NAME}_app PRIVATE ${PROJECT_NAME})
     # Includes the headers to the application

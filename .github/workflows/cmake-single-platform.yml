@@ -21,6 +21,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Setup cmake
+      uses: jwlawson/actions-setup-cmake@v2
+      with:
+        cmake-version: '4.2.x'
+
     - name: Configure CMake
       run: |
         cmake -S . -B ${{github.workspace}}/build                    \
@@ -29,7 +34,8 @@ jobs:
           -DBUILD_EXECUTABLE=${{env.BUILD_EXECUTABLE}}               \
           -DMAKE_INSTALLABLE=${{env.MAKE_INSTALLABLE}}               \
           -DBUILD_SHARED_LIBS=${{env.BUILD_SHARED_LIBS}}             \
-          -DCMAKE_INSTALL_PREFIX:PATH=$GITHUB_WORKSPACE/test_install
+          -DCMAKE_INSTALL_PREFIX:PATH=$GITHUB_WORKSPACE/test_install \
+          -DFETCHCONTENT_UPDATES_DISCONNECTED=ON
 
     - name: Build
       working-directory: ${{github.workspace}}/build
