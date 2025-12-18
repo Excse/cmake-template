@@ -51,7 +51,7 @@ set_target_properties(${PROJECT_NAME}
 
 if(BUILD_EXECUTABLE)
     # Create the main executable from the main source file
-    add_executable(${PROJECT_NAME}_app src/your_project/main.cpp)
+    add_executable(${PROJECT_NAME}_app src/main.cpp)
     # Link the library with the application
     target_link_libraries(${PROJECT_NAME}_app PRIVATE ${PROJECT_NAME})
     # Includes the headers to the application

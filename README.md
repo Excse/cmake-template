@@ -7,21 +7,34 @@
 ![License](https://img.shields.io/github/license/Excse/cmake-template?style=flat&label=License)
 ![Stars](https://img.shields.io/github/stars/Excse/cmake-template)
 
-A template structure for a modern CMake project, offering a robust starting point for C++ library development with CMake 3.20+.
+A template structure for a modern CMake project, offering a robust starting point for C++ library and app development using CMake 4.2+.
 
----
+## Table of Contents
+
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [1. Clone the template](#1-clone-the-template)
+  - [2. Configure the project](#2-configure-the-project)
+  - [3. Build the library](#3-build-the-library-and-executable-if-enabled)
+  - [4. Run Unit-Tests](#4-run-unit-tests-only-if-enabled)
+  - [5. Install the library](#5-install-the-library-only-if-enabled)
+  - [6. Uninstall the library](#6-uninstall-the-library-only-if-the-library-was-installed)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Testing](#testing)
+- [Documentation](#documentation)
+- [Customization](#customization)
+- [License](#license)
 
 ## Features
 
-- **Modern CMake** (4.2+)
+- Modern **CMake 4.2+**
 - **C++20** enabled by default
 - Out-of-the-box **library target** with namespaced alias
-- **Header and source separation**: designed for libraries
-- **Exported CMake config** for easy consumption via `find_package`
-- **Testing setup** using GoogleTest (via FetchContent)
-- Clean, minimal, and ready to extend for your project
-
----
+- **Header/source separation**: designed for library development
+- **Exported CMake package** for easy consumption via `find_package`
+- **Testing** via GoogleTest (FetchContent)
+- Clean, minimal, and ready to extend
 
 ## Getting Started
 
@@ -30,89 +43,98 @@ A template structure for a modern CMake project, offering a robust starting poin
 ```sh
 git clone https://github.com/Excse/cmake-template.git
 cd cmake-template
-````
+```
 
 ### 2. Configure the project
-There are several options you can enable/disable to your liking (or even remove the code associated with the option):
- - ``BUILD_TESTING``: Also builds the test executable, which will make the build process way longer. (Disable it if you just want to create an executable or installable library)
- - ``BUILD_EXECUTABLE``: You have to specify a ``main.cpp`` in ``/src`` to build an executable that can use your library.
- - ``MAKE_INSTALLABLE``: Depending on the option the library can be installed or just build.
- - ``BUILD_SHARED_LIBS``: An option to declare if the libray should be shared or static.
-
+There are several options you can enable/disable to your liking (or remove the related code if not needed):
+- `BUILD_TESTING` (ON/OFF): Builds unit tests. Turn OFF for faster builds when you only need the library/app.
+- `BUILD_EXECUTABLE` (ON/OFF): Builds an example app. Provide a `src/main.cpp` when ON.
+- `MAKE_INSTALLABLE` (ON/OFF): Enables `install` rules for packaging/installation.
+- `BUILD_SHARED_LIBS` (ON/OFF): Choose shared vs. static library.
 
 ```sh
-cmake -S . -B build # -DBUILD_TESTING=OFF -DBUILD_EXECUTABLE=OFF -DMAKE_INSTALLABLE=OFF -DBUILD_SHARED_LIBS=OFF
-````
+cmake -S . -B build -DBUILD_TESTING=ON         \
+                    -DBUILD_EXECUTABLE=ON      \
+                    -DMAKE_INSTALLABLE=ON      \
+                    -DBUILD_SHARED_LIBS=ON
+```
 
 ### 3. Build the library (and executable, if enabled)
 
 ```sh
 cmake --build build
-````
+```
 
 ### 4. Run Unit-Tests (only if enabled)
 
 ```sh
 cd build
-ctest
-````
+ctest --output-on-failure
+```
 
 ### 5. Install the library (only if enabled)
 
 ```sh
-cd build
-sudo make install
-````
+cmake --install build
+```
 
 ### 6. Uninstall the library (only if the library was installed)
 
 ```sh
-cd build
-cat install_manifest.txt | sudo xargs rm
+# Remove files listed by CMake during install
+sudo xargs rm < build/install_manifest.txt
 ```
 
----
-
 ## Usage
-After building and installing, you can use this library in another CMake project via:
+After installing, you can use this library in another CMake project via:
 
 ```cmake
 find_package(your_project REQUIRED)
+
 target_link_libraries(your_target PRIVATE your_project::your_project)
 ```
 
----
+Notes:
+- The exported package name matches the project name in `CMakeLists.txt` (`project(your_project ...)`).
+- The namespaced target is `your_project::your_project`.
 
 ## Project Structure
 
-```code
+```text
 cmake-template/
 ├── CMakeLists.txt
 ├── include/
 │   └── your_project/
-│       └── library.hpp  # (sample header, add your interfaces here)
+│       └── library.hpp # sample public header
 ├── src/
-│   ├── main.cpp         # (main file, for the executable)
-│   └── library.cpp      # (sample implementation)
+│   ├── your_project/
+│   │   └── library.cpp # library implementation
+│   └── main.cpp        # example app entry (when BUILD_EXECUTABLE=ON)
 ├── tests/
-│   └── CMakeLists.txt   # (GoogleTest auto-download and test integration)
+│   └── CMakeLists.txt  # GoogleTest integration (FetchContent)
+└── cmake/              # package config template(s)
 ```
 
----
-
 ## Testing
- - GoogleTest is automatically downloaded using CMake's FetchContent.
- - All .cpp files in tests/ are compiled and run as unit tests.
 
---- 
+- GoogleTest is automatically downloaded using CMake's FetchContent.
+- All `.cpp` files in `tests/` are compiled and run as unit tests.
+- Run `ctest --output-on-failure` from the build directory.
+
+## Documentation
+
+- A ready-to-use `Doxyfile` is included. Generate docs locally with:
+  ```sh
+  doxygen Doxyfile
+  ```
+- A GitHub Actions workflow is provided to publish Doxygen docs to GitHub Pages (see `.github/workflows/doxygen-gh-pages.yml`).
 
 ## Customization
- - Change project(your_project ...) in CMakeLists.txt to your project name.
- - Add your source/header files under src/ and include/.
- - Adjust install rules as needed for your distribution.
- - Enable/Disable options or remove the dependent code
 
----
+- Change `project(your_project ...)` in `CMakeLists.txt` to your project name.
+- Add your source/header files under `src/` and `include/`.
+- Adjust install rules as needed for your platform or packaging strategy.
+- Toggle options in configure step (see Getting Started) or remove unneeded code paths.
 
 ## License
-This project is a template and does not include a license by default. Add a LICENSE file as appropriate for your use.
+This project is a template and does not include a license by default. Add a `LICENSE` file appropriate for your use.
