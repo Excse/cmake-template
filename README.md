@@ -142,3 +142,17 @@ cmake-template/
 
 ## License
 This project is a template and does not include a license by default. Add a `LICENSE` file appropriate for your use.
+
+## VS Code
+
+Open this repository folder and install the recommended C/C++ and CMake Tools
+extensions. Use **Terminal → Run Task** for Debug, Release, and shared-library
+configure/build/test/install/clean tasks and Doxygen documentation generation.
+**Ctrl+Shift+B** builds Debug; **Run and Debug** provides GDB profiles for the
+unit tests and example executable. The test profile prompts for a GoogleTest filter; `*` runs all tests.
+Builds use separate directories under `build/vscode`; install tasks write into
+`build/vscode/install` without requiring system-wide installation.
+
+Use **Example: Run Debug** to run the example without debugging. When adapting
+the template, replace `your_project` in `.vscode/tasks.json` and
+`.vscode/launch.json` with the new project name.
