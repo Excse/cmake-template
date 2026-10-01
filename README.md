@@ -52,6 +52,10 @@ There are several options you can enable/disable to your liking (or remove the r
 - `MAKE_INSTALLABLE` (ON/OFF): Enables `install` rules for packaging/installation.
 - `BUILD_SHARED_LIBS` (ON/OFF): Choose shared vs. static library.
 
+These options default to ON for standalone builds and OFF when the template is
+added to another project with `add_subdirectory()`. Explicit values supplied by
+the parent project are respected.
+
 ```sh
 cmake -S . -B build -DBUILD_TESTING=ON         \
                     -DBUILD_EXECUTABLE=ON      \

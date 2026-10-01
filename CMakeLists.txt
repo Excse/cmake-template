@@ -7,13 +7,13 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Option to enable/disable testing:
-option(BUILD_TESTING "Enable testing" ON)
+option(BUILD_TESTING "Enable testing" ${PROJECT_IS_TOP_LEVEL})
 # Option to enable/disable executable:
-option(BUILD_EXECUTABLE "Create executable" ON)
+option(BUILD_EXECUTABLE "Create executable" ${PROJECT_IS_TOP_LEVEL})
 # Option to enable/disable installation:
-option(MAKE_INSTALLABLE "Make the library installable" ON)
+option(MAKE_INSTALLABLE "Make the library installable" ${PROJECT_IS_TOP_LEVEL})
 # Option to control static vs shared library
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" ${PROJECT_IS_TOP_LEVEL})
 
 ### --- CMake Modules for Installation and Fetching --- ###
 include(CMakePackageConfigHelpers) # Helper for creating config files for package managers
@@ -27,6 +27,8 @@ include(FetchContent)              # For downloading and using external dependen
 add_library(${PROJECT_NAME} src/your_project/library.cpp)
 # Create an alias for the library: your_project::your_project
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+# Propagate the required C++ standard to consumers, including installed targets.
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
 
 # Setup include directories for consumers and installers
 target_include_directories(
@@ -39,12 +41,14 @@ target_include_directories(
 set(PUBLIC_HEADERS
         include/${PROJECT_NAME}/library.hpp)
 
+# Include public headers in the library target.
+target_sources(${PROJECT_NAME} PRIVATE ${PUBLIC_HEADERS})
+
 # Set the properties of the resulting library
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
         VERSION ${PROJECT_VERSION}
-        SOVERSION ${PROJECT_VERSION_MAJOR}
-        PUBLIC_HEADER "${PUBLIC_HEADERS}")
+        SOVERSION ${PROJECT_VERSION_MAJOR})
 
 
 ### --- Define Executable Target --- ###
@@ -67,8 +71,10 @@ if(MAKE_INSTALLABLE)
             EXPORT ${PROJECT_NAME}Targets
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    # Preserve header subdirectories so installed include paths match the build tree.
+    install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+            FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
 
     # Install the target export file (for find_package)
     install(EXPORT ${PROJECT_NAME}Targets
